@@ -1,19 +1,20 @@
 "# mqtt_tutorial" 
 
-<span style="color:blue">To demonstrate MQTT pub-sub protocol for Master's Thesis Prep<span style="color:blue">
+*To demonstrate MQTT pub-sub protocol for Master's Thesis Prep.*
+*Resources addressed here are from [link](http://www.steves-internet-guide.com/).*
 
-<span style="color:blue">Resources addressed here are from [link](http://www.steves-internet-guide.com/)<span style="color:blue">
+![alt text](https://www.influxdata.com/wp-content/uploads/MQTT.png "MQTT")
 
 # A. Beginner Steps
 
-## 1. Beginners Guide To The Paho MQTT Python Client
-## 2. Paho Python MQTT Client Objects
-## 3. Python MQTT Client Connections– Working with Connections
-## 4. Paho Python MQTT Client – Publish With Examples
-## 5. Paho Python MQTT Client Subscribe With Examples
-## 6. Paho Python MQTT Client-Understanding The Loop
-## 7. Paho Python MQTT Client – Understanding Callbacks
-## 8. Handling Multiple Client Connections-Python MQTT
+- Beginners Guide To The Paho MQTT Python Client
+- Paho Python MQTT Client Objects
+- Python MQTT Client Connections– Working with Connections
+- Paho Python MQTT Client – Publish With Examples
+- Paho Python MQTT Client Subscribe With Examples
+- Paho Python MQTT Client-Understanding The Loop
+- Paho Python MQTT Client – Understanding Callbacks
+- Handling Multiple Client Connections-Python MQTT
 
 # B. Advanced (more to come)
 
