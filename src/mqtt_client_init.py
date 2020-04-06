@@ -5,12 +5,9 @@ From (http://www.steves-internet-guide.com/client-objects-python-mqtt/)
 import paho.mqtt.client as mqtt
 
 class MQTTClient(mqtt.Client):
-   """
-   MQTT client sub-class with a constructor initializing flags
-   """
+   """MQTT client sub-class with a constructor initializing flags"""
    def __init__(self,cname,**kwargs):
-        """
-        """
+        """MQTTClient class constructor"""
         super(MQTTClient, self).__init__(cname,**kwargs)
         self.last_pub_time=time.time()
         self.topic_ack=[]
@@ -24,9 +21,7 @@ class MQTTClient(mqtt.Client):
         self.devices=[]
 
 def Initialise_clients(cname):
-    """
-    callback assignments & flags setting
-    """
+    """callback assignments & flags setting"""
     client= mqtt.Client(cname,False)    #don't use clean session
     if mqttclient_log:                  #enable mqqt client logging
         client.on_log=on_log
