@@ -8,7 +8,7 @@
 # A. Beginner Steps
 
 - ~~Beginners Guide To The Paho MQTT Python Client~~ *(05/Apr/2020)*
-- Paho Python MQTT Client Objects
+- ~~Paho Python MQTT Client Objects~~ *(06/Apr/2020)*
 - Python MQTT Client Connections– Working with Connections
 - Paho Python MQTT Client – Publish With Examples
 - Paho Python MQTT Client Subscribe With Examples
