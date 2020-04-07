@@ -55,14 +55,14 @@ print("# 1. Creating new instance.")
 client = mqtt.Client("P1")
 
 print("# 2. Attaching a message function & a toubleshoot function to callback")
-# bind all call back functions
-client.on_connect = on_connect # without parentheses
-client.on_disconnect = on_disconnect # without parentheses
-client.on_message = on_message # without parentheses
+# Bind all call back functions
+client.on_connect = on_connect # Without parentheses
+client.on_disconnect = on_disconnect # Without parentheses
+client.on_message = on_message # Without parentheses
 #client.on_log = on_log # without parentheses
 
 print("# 3. Connecting to broker")
-client.connect(broker_address) # this triggers the on_connect callback
+client.connect(broker_address) # This triggers the on_connect callback
 
 print("# 4. Starting the loop")
 client.loop_start()
@@ -74,6 +74,8 @@ print("# 6. Publish message to topic", "house/bulbs/bulb1")
 client.publish("house/bulbs/bulb1", "OFF")
 
 print("# 7. Wait & Stop the loop")
+# For working scripts, one can process the callback and use it to flag
+# a successful or unsuccessful connection (instead of using time.sleep())
 time.sleep(4)
 client.loop_stop()
 client.disconnect()
