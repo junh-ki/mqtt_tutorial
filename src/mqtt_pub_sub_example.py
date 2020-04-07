@@ -77,6 +77,7 @@ print("# 6. Publish message to topic", "house/bulbs/bulb1")
 client.publish("house/bulbs/bulb1", "OFF")
 
 print("# 7. Wait & Stop the loop")
+# callback waiting enhanced with while loop
 while not client.connected_flag:
     time.sleep(1)
 client.loop_stop()
