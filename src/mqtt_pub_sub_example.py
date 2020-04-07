@@ -18,7 +18,9 @@ def on_connect(client, userdata, flags, rc):
     called when the broker responds to our connection request.
     """
     if rc == 0:
-        print("connected OK")
+        client.connected_flag = True
+        print("Connected OK, Returned code =", rc)
+        # client.subscrube(topic)
     else:
         print("Bad connection Returned code =", rc)
 
@@ -53,6 +55,7 @@ broker_address = mosquitto
 
 print("# 1. Creating new instance.")
 client = mqtt.Client("P1")
+client.connected_flag = False
 
 print("# 2. Attaching a message function & a toubleshoot function to callback")
 # Bind all call back functions
@@ -74,8 +77,7 @@ print("# 6. Publish message to topic", "house/bulbs/bulb1")
 client.publish("house/bulbs/bulb1", "OFF")
 
 print("# 7. Wait & Stop the loop")
-# For working scripts, one can process the callback and use it to flag
-# a successful or unsuccessful connection (instead of using time.sleep())
-time.sleep(4)
+while not client.connected_flag:
+    time.sleep(1)
 client.loop_stop()
 client.disconnect()
