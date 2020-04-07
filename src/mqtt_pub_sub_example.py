@@ -22,7 +22,7 @@ def on_connect(client, userdata, flags, rc):
         print("Connected OK, Returned code =", rc)
         # client.subscrube(topic)
     else:
-        print("Bad connection Returned code =", rc)
+        print("Bad Connection Returned code =", rc)
 
 def on_disconnect(client, userdata, flags, rc=0):
     """
@@ -30,7 +30,7 @@ def on_disconnect(client, userdata, flags, rc=0):
     called when the client disconnects from the broker.
     The 'rc' parameter indicates the disconnection state.
     """
-    print("DisConnected result code " + str(rc))
+    print("DisConnected Result code =" + str(rc))
 
 def on_message(client, userdata, message):
     """
@@ -51,7 +51,7 @@ mosquitto = "test.mosquitto.org"
 hivemq = "broker.hivemq.com"
 eclipse = "iot.eclipse.org" # doesn't work at the moment somehow
 
-broker_address = mosquitto
+broker_address = eclipse
 
 print("# 1. Creating new instance.")
 client = mqtt.Client("P1")
@@ -65,7 +65,13 @@ client.on_message = on_message # Without parentheses
 #client.on_log = on_log # without parentheses
 
 print("# 3. Connecting to broker")
-client.connect(broker_address) # This triggers the on_connect callback
+# To handle failed connection exceptions
+try:
+    # client.connect(broker, port) # You can also assign an argument for port
+    client.connect(broker_address) # This triggers the on_connect callback
+except:
+    print("Connection Failed.")
+    exit(1) # It should quit or raise flag to quit or retry
 
 print("# 4. Starting the loop")
 client.loop_start()
