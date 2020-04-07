@@ -51,7 +51,7 @@ mosquitto = "test.mosquitto.org"
 hivemq = "broker.hivemq.com"
 eclipse = "iot.eclipse.org" # doesn't work at the moment somehow
 
-broker_address = eclipse
+broker_address = mosquitto
 
 print("# 1. Creating new instance.")
 client = mqtt.Client("P1")
