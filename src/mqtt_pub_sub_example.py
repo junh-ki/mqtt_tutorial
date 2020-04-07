@@ -22,7 +22,8 @@ def on_connect(client, userdata, flags, rc):
         print("Connected OK, Returned code =", rc)
         # client.subscrube(topic)
     else:
-        print("Bad Connection Returned code =", rc)
+        print("Bad Connection, Returned code =", rc)
+        client.bad_connection_flag = True
 
 def on_disconnect(client, userdata, flags, rc=0):
     """
@@ -30,7 +31,7 @@ def on_disconnect(client, userdata, flags, rc=0):
     called when the client disconnects from the broker.
     The 'rc' parameter indicates the disconnection state.
     """
-    print("DisConnected Result code =" + str(rc))
+    print("DisConnected Result code = " + str(rc))
 
 def on_message(client, userdata, message):
     """
@@ -56,6 +57,7 @@ broker_address = mosquitto
 print("# 1. Creating new instance.")
 client = mqtt.Client("P1")
 client.connected_flag = False
+client.bad_connection_flag = False
 
 print("# 2. Attaching a message function & a toubleshoot function to callback")
 # Bind all call back functions
@@ -84,7 +86,12 @@ client.publish("house/bulbs/bulb1", "OFF")
 
 print("# 7. Wait & Stop the loop")
 # callback waiting enhanced with while loop
-while not client.connected_flag:
+while not client.connected_flag and not client.bad_connection_flag:
+    # Wait in loop, if either of them becomes True, it gets out.
     time.sleep(1)
+if client.bad_connection_flag:
+    client.loop_stop()
+    sys.exit()
+
 client.loop_stop()
 client.disconnect()
