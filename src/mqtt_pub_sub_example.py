@@ -18,8 +18,8 @@ def on_connect(client, userdata, flags, rc):
     called when the broker responds to our connection request.
     """
     if rc == 0:
-        client.connected_flag = True
         client.disconnect_flag = False
+        client.connected_flag = True
         print("Connected OK, Returned code =", rc)
         # client.subscrube(topic)
     else:
