@@ -19,6 +19,7 @@ def on_connect(client, userdata, flags, rc):
     """
     if rc == 0:
         client.connected_flag = True
+        client.disconnect_flag = False
         print("Connected OK, Returned code =", rc)
         # client.subscrube(topic)
     else:
@@ -32,6 +33,8 @@ def on_disconnect(client, userdata, flags, rc=0):
     The 'rc' parameter indicates the disconnection state.
     """
     print("DisConnected Result code = " + str(rc))
+    client.connected_flag = False
+    client.disconnect_flag = True
 
 def on_message(client, userdata, message):
     """
@@ -57,6 +60,7 @@ broker_address = mosquitto
 print("# 1. Creating new instance.")
 client = mqtt.Client("P1")
 client.connected_flag = False
+client.disconnect_flag = True
 client.bad_connection_flag = False
 
 print("# 2. Attaching a message function & a toubleshoot function to callback")
