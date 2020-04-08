@@ -74,12 +74,14 @@ print("# 3. Connecting to broker")
 # To handle failed connection exceptions
 try:
     # client.connect(broker, port) # You can also assign an argument for port
-    client.connect(broker_address) # This triggers the on_connect callback
+    client.connect(broker_address) # This triggers the on_connect callback.
 except:
     print("Connection Failed.")
-    exit(1) # It should quit or raise flag to quit or retry
+    exit(1) # It should quit or raise flag to quit or retry.
 
 print("# 4. Starting the loop")
+# The reason for this is that there is a time delay between 
+# the connection being created and the callback being triggered.
 client.loop_start()
 
 print("# 5. Subscribe to topic", "house/bulbs/bulb1")
