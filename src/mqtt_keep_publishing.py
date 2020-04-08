@@ -85,8 +85,9 @@ except:
 
 run_flag = True
 count = 1
+# To demonstrate if it automatically connects to the broker when the broker is 
+# turned off and on again.
 while run_flag:
-    # You can
     print("In Main Loop...")
     msg = "test message " + str(count)
     ret = client.publish("house/2", "test message", 0) # topic, payload, QoS
