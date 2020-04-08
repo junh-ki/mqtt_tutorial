@@ -68,35 +68,30 @@ client.on_disconnect = on_disconnect # Without parentheses
 client.on_message = on_message # Without parentheses
 #client.on_log = on_log # without parentheses
 
-print("# 3. Connecting to broker")
-# To handle failed connection exceptions
+
+print("# 3. Starting the loop")
+client.loop_start()
+
+print("# 4. Connecting to broker")
 try:
-    # client.connect(broker, port) # You can also assign an argument for port
-    client.connect(broker_address) # This triggers the on_connect callback.
+    client.connect(broker_address) # connect to broker
+    while not client.connected_flag: # wait in loop
+        print("In Wait Loop")
+        time.sleep(1)
 except:
     print("Connection Failed.")
     sys.exit(1) # It should quit or raise flag to quit or retry.
 
-print("# 4. Starting the loop")
-# The reason for this is that there is a time delay between 
-# the connection being created and the callback being triggered.
-client.loop_start()
+run_flag = True
+count = 1
+while run_flag:
+    # You can
+    print("In Main Loop...")
+    msg = "test message " + str(count)
+    ret = client.publish("house/2", "test message", 0) # topic, payload, QoS
+    print("Publish", ret)
+    count += 1
+    time.sleep(4)
 
-print("# 5. Subscribe to topic", "house/bulbs/bulb1")
-client.subscribe("house/bulbs/bulb1")
-
-print("# 6. Publish message to topic", "house/bulbs/bulb1")
-client.publish("house/bulbs/bulb1", "OFF")
-
-print("# 7. Wait & Stop the loop")
-# callback waiting enhanced with while loop
-while not client.connected_flag and not client.bad_connection_flag:
-    # Wait in loop, if either of them becomes True, it gets out.
-    print("\nIn Wait Loop...")
-    time.sleep(1)
-    if client.bad_connection_flag:
-        client.loop_stop()
-        sys.exit()
 client.loop_stop()
 client.disconnect()
-print("Done.")
