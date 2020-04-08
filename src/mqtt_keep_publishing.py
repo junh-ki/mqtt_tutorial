@@ -70,6 +70,7 @@ client.on_message = on_message # Without parentheses
 
 
 print("# 3. Starting the loop")
+# This time, I start looping first before I connect to the broker.
 client.loop_start()
 
 print("# 4. Connecting to broker")
