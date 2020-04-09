@@ -59,6 +59,10 @@ def on_message(client, userdata, message):
     logging.info(msgr)
 
 def reset():
+    """
+    To get rid of the latest retained message held on the topic in the broker,
+    publish a blank message with retainFlag = True on the topic.
+    """
     ret = client.publish("house/bulb1", "", 0, True)    # publish
 
 print("# 1. Create new instance.")
@@ -101,12 +105,12 @@ print("published return =", ret)
 #client.loop()
 time.sleep(3)
 print("")
-ret = client.publish("house/bulb1", "Test message 1", 1, True) #publish
+ret = client.publish("house/bulb1", "Test message 1", 1) #publish
 print("published return =", ret)
 #client.loop()
 time.sleep(3)
 print("")
-ret = client.publish("house/bulb1", "Test message 2", 2, True) #publish
+ret = client.publish("house/bulb1", "Test message 2", 2) #publish
 print("published return =", ret)
 #client.loop()
 time.sleep(3)
@@ -114,9 +118,11 @@ time.sleep(3)
 print("")
 print("# 6. Subscribe to the topic")
 client.subscribe("house/bulb1", 2)
-time.sleep(10) #delay to catch any messages coming through
+time.sleep(4) #delay to catch any messages coming through
 #client.loop()
-#reset()
+reset() # Even if you get rid of the retain flag (flag = False), 
+# the new client would still get the retained message that is effectively held
+# indefinitely on the topic in the broker (Unless you reset() it)
 
 print("")
 print("# 7. Stop the loop & Disconnect")
