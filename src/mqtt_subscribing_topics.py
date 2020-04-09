@@ -110,51 +110,49 @@ while not client.connected_flag: # wait in loop
     time.sleep(1)
 
 print("# 5. Subscribe " + str(topics))
-
-
-try:
-    ret = client.subscribe(topics)
-    if ret[0] == 0:
-        logging.info("subscribed to topic " + str(topics) 
-            + ", return code " + str(ret)) 
-        # return code (0-success, 1 2... - packet_id)
-        topic_ack.append([topics, ret[1], 0]) #keep track of subscription
-        # the ret[1] value here is compared with the mid value 
-        # in the on_subscribe method
-    else:
-        logging.info("error on subscribing " + str(ret))
-        client.loop_stop()
-        sys.exit(1)
-except Exception as e:
-    logging.info("error on subscribe" + str(e))
-    client.loop_stop()
-    sys.exit(1)
-
-# for topic in topics:
-#     try:
-#         ret = client.subscribe(topic) # topic = a tuple ("topic", QoS)
-#         # The subscribe function returns a tuple to indicate success, 
-#         # and also a message id(mid) which is used as a tracking code.
-#         # (success_code, mid-packet_id) success_code: 0 success/ else failure
-#         if ret[0] == 0:
-#             logging.info("subscribed to topic " + str(topic[0]) 
-#                 + ", return code " + str(ret)) 
-#             # return code (0-success, 1 2... - packet_id)
-#             topic_ack.append([topic[0], ret[1], 0]) #keep track of subscription
-#             # the ret[1] value here is compared with the mid value 
-#             # in the on_subscribe method
-#         else:
-#             logging.info("error on subscribing " + str(ret))
-#             client.loop_stop()
-#             sys.exit(1)
-#     except Exception as e:
-#         logging.info("error on subscribe" + str(e))
+# try:
+#     ret = client.subscribe(topics)
+#     if ret[0] == 0:
+#         logging.info("subscribed to topic " + str(topics) 
+#             + ", return code " + str(ret)) 
+#         # return code (0-success, 1 2... - packet_id)
+#         topic_ack.append([topics, ret[1], 0]) #keep track of subscription
+#         # the ret[1] value here is compared with the mid value 
+#         # in the on_subscribe method
+#     else:
+#         logging.info("error on subscribing " + str(ret))
 #         client.loop_stop()
 #         sys.exit(1)
+# except Exception as e:
+#     logging.info("error on subscribe" + str(e))
+#     client.loop_stop()
+#     sys.exit(1)
 
-# print("6. Waiting for all subs")
-# while not check_subs():
-#     time.sleep(1)
+for topic in topics:
+    try:
+        ret = client.subscribe(topic) # topic = a tuple ("topic", QoS)
+        # The subscribe function returns a tuple to indicate success, 
+        # and also a message id(mid) which is used as a tracking code.
+        # (success_code, mid-packet_id) success_code: 0 success/ else failure
+        if ret[0] == 0:
+            logging.info("subscribed to topic " + str(topic[0]) 
+                + ", return code " + str(ret)) 
+            # return code (0-success, 1 2... - packet_id)
+            topic_ack.append([topic[0], ret[1], 0]) #keep track of subscription
+            # the ret[1] value here is compared with the mid value 
+            # in the on_subscribe method
+        else:
+            logging.info("error on subscribing " + str(ret))
+            client.loop_stop()
+            sys.exit(1)
+    except Exception as e:
+        logging.info("error on subscribe" + str(e))
+        client.loop_stop()
+        sys.exit(1)
+
+print("6. Waiting for all subs")
+while not check_subs():
+    time.sleep(1)
 ################################################################################
 time.sleep(3)
 msg = "off"
