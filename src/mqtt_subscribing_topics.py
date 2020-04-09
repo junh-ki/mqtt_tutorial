@@ -1,6 +1,7 @@
 import paho.mqtt.client as mqtt
 import time
 import logging
+import sys
 # Choose one of the followings to set the broker address
 mosquitto = "test.mosquitto.org"
 hivemq = "broker.hivemq.com"
