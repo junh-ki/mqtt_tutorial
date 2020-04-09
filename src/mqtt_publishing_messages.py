@@ -95,8 +95,8 @@ print("# 5. Publish to broker")
 print("")
 ret = client.publish("house/bulb1", "Test message 0", 0, True) #publish
 # retain flag = True // This way, the client that subscribed after 
-# a message was published can get the missed message from the broker 
-# (the retain flag enables the broker to keep the latest message.)
+# a retained message was published can get the missed retained message from
+# the broker (the retain flag enables the broker to keep the latest message.)
 print("published return =", ret)
 #client.loop()
 time.sleep(3)
