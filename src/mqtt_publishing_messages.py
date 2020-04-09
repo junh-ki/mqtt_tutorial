@@ -43,23 +43,43 @@ def on_disconnect(client, userdata, rc):
 def on_publish(client, userdata, mid):
     logging.info("In on_pub callback mid = " + str(mid))
 
-print("# 1. Creating new instance.")
+def on_subscribe(client, userdata, mid, granted_qos):
+    logging.info("Subscribed")
+
+def on_message(client, userdata, message):
+    """
+    Callback function, which basically just prints the received messages
+        - From the imported client.py: called when a message has been received 
+        on a topic that the client subscribes to. The message variable is a
+        MQTTMessage that describes all of the message parameters.
+    """
+    topic = message.topic   # ??
+    msgr = str(message.payload.decode("utf-8"))
+    msgr = "Message Received " + msgr
+    logging.info(msgr)
+
+def reset():
+    ret = client.publish("house/bulb1", "", 0, True)    # publish
+
+print("# 1. Create new instance.")
 client = mqtt.Client("P1")
 client.connected_flag = False
 client.bad_connection_flag = False
 
-print("# 2. Attaching a message function & a toubleshoot function to callback")
+print("# 2. Attach callback functions to callbacks")
 # Bind all call back functions
 client.on_connect = on_connect
 client.on_disconnect = on_disconnect
 client.on_publish = on_publish
+client.on_subscribe = on_subscribe
+client.on_message = on_message
 client.on_log = on_log
 
-print("# 3. Starting the loop")
+print("# 3. Start the loop")
 # This time, I start looping first before I connect to the broker.
 client.loop_start()
 
-print("# 4. Connecting to broker")
+print("# 4. Connect to broker")
 try:
     client.connect(broker_address, port)    #establish connection
     while not client.connected_flag: # wait in loop
@@ -71,7 +91,7 @@ except:
 time.sleep(3)
 
 print("")
-print("# 5. Publishing to broker")
+print("# 5. Publish to broker")
 print("")
 ret = client.publish("house/bulb1", "Test message 0", 0) #publish
 print("published return =", ret)
@@ -87,6 +107,13 @@ ret = client.publish("house/bulb1", "Test message 2", 2) #publish
 print("published return =", ret)
 #client.loop()
 time.sleep(3)
+
+print("")
+print("# 6. Subscribe to the topic")
+client.subscribe("house/bulb1", 2)
+time.sleep(10) #delay to catch any messages coming through
+#client.loop()
+#reset()
 
 print("")
 print("# 7. Stop the loop & Disconnect")
