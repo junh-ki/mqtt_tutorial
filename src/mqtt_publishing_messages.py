@@ -1,12 +1,21 @@
 import paho.mqtt.client as mqtt
 import time
+import logging
+# Choose one of the followings to set the broker address
+mosquitto = "test.mosquitto.org"
+hivemq = "broker.hivemq.com"
+eclipse = "iot.eclipse.org" # doesn't work at the moment somehow
+broker_address = mosquitto
+port = 1883
+logging.basicConfig(level = logging.INFO)
+#use DEBUG, INFO, WARNING
 
 def on_log(client, userdata, level, buf):
     """
     Troubleshoot function to procee the logging callback.
     It simply prints the log message.
     """
-    print("log: ", buf)
+    logging.info(buf)
 
 def on_connect(client, userdata, flags, rc):
     """
@@ -15,11 +24,11 @@ def on_connect(client, userdata, flags, rc):
     """
     if rc == 0:
         client.connected_flag = True
-        print("Connected OK, Returned code =", rc)
+        logging.info("Connected OK")
         # client.subscrube(topic)
     else:
-        print("Bad Connection, Returned code =", rc)
         client.bad_connection_flag = True
+        logging.info("Bad Connection, Returned Code = " + str(rc))
         client.loop_stop()
 
 def on_disconnect(client, userdata, rc):
@@ -28,19 +37,11 @@ def on_disconnect(client, userdata, rc):
     called when the client disconnects from the broker.
     The 'rc' parameter indicates the disconnection state.
     """
-    print("DisConnected Result code = " + str(rc))
-    print("client disconnected")
     client.connected_flag = False
-
+    logging.info("Client Disconnected OK, Result Code = " + str(rc))
+    
 def on_publish(client, userdata, mid):
-    print("In on_pub callback mid =", mid)
-
-# Choose one of the followings to set the broker address
-mosquitto = "test.mosquitto.org"
-hivemq = "broker.hivemq.com"
-eclipse = "iot.eclipse.org" # doesn't work at the moment somehow
-broker_address = mosquitto
-port = 1883
+    logging.info("In on_pub callback mid = " + str(mid))
 
 print("# 1. Creating new instance.")
 client = mqtt.Client("P1")
@@ -87,6 +88,7 @@ print("published return =", ret)
 #client.loop()
 time.sleep(3)
 
+print("")
 print("# 7. Stop the loop & Disconnect")
 print("")
 client.loop_stop()
