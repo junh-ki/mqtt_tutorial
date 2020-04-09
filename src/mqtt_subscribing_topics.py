@@ -47,6 +47,8 @@ def on_subscribe(client, userdata, mid, granted_qos):
     logging.info("in on subscribe callback result " + str(mid))
     for topic in topic_ack:
         if topic[1] == mid:
+            # mid value here is compared with the ret[1] that is also mid. 
+            # see the subscribe > try > if part
             topic[2] = 1 #set acknowledged flag
             logging.info("subscription acknowledged  " + topic[0])
             client.suback_flag = True
@@ -91,6 +93,8 @@ client.on_log = on_log
 ################################################################################
 print("# 3. Prepare a list of topic tuples - ")
 topics = [("house/lights/bulb1", 0), ("house/lights/bulb2", 1)]
+# The second argument for each tuple represents QoS (should be either 0, 1 or 2. 
+# Otherwise, you will get an invalid QoS level error.)
 topic_ack = []
 
 print("# 4. Connect to broker - ", broker_address)
@@ -108,11 +112,16 @@ print("# 5. Subscribe " + str(topics))
 for topic in topics:
     try:
         ret = client.subscribe(topic) # topic = a tuple ("topic", QoS)
+        # The subscribe function returns a tuple to indicate success, 
+        # and also a message id(mid) which is used as a tracking code.
+        # (success_code, mid-packet_id) success_code: 0 success/ else failure
         if ret[0] == 0:
             logging.info("subscribed to topic " + str(topic[0]) 
                 + ", return code " + str(ret)) 
             # return code (0-success, 1 2... - packet_id)
             topic_ack.append([topic[0], ret[1], 0]) #keep track of subscription
+            # the ret[1] value here is compared with the mid value 
+            # in the on_subscribe method
         else:
             logging.info("error on subscribing " + str(ret))
             client.loop_stop()
