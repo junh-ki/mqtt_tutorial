@@ -75,7 +75,7 @@ def check_subs():
             return(False)
     return True 
 
-mqtt.Client.connected_flag=False#create flag in class
+mqtt.Client.connected_flag = False#create flag in class
 
 print("# 1. Create new instance.")
 client = mqtt.Client("P1")
