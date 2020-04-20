@@ -14,7 +14,7 @@
 - ~~Paho Python MQTT Client Subscribe With Examples~~ *(09/Apr/2020)*
 - ~~Paho Python MQTT Client-Understanding The Loop~~ *(10/Apr/2020)*
 - ~~Paho Python MQTT Client – Understanding Callbacks~~ *(15/Apr/2020)*
-- Handling Multiple Client Connections-Python MQTT
+- ~~Handling Multiple Client Connections-Python MQTT~~ *(19/Apr/2020)*
 
 # B. Advanced (more to come)
 
